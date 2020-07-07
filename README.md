@@ -18,18 +18,13 @@
 
 ## List of techniques:
 
+- Two pointers
 - Binary search
 - Partitioning
 - Merge two sorted arrays
 - DFS - Depth First Search
 - BST - Breadth First Search
-
-## Linked List
-
-### Commonly used techniques:
-
-- Two pointers: {}
-- Divide And Conquer
-- Iterations: {}
-- Recursion: {}
-- Stack: {Find next greater node for every element; }
+- Dynamic Programming
+	- Recursion + Memoization
+	- Bottom-Up approach
+- Backtracking

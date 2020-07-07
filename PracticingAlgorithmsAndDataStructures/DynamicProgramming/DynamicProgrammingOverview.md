@@ -1,5 +1,251 @@
 ﻿# "Dynamic Programming" LeetCode problems overview
 
+Dynamic Programming is mainly an optimization over plain recursion. Wherever we see a recursive solution that has repeated calls for same inputs, we can optimize it using Dynamic Programming. The idea is to simply store the results of subproblems, so that we do not have to re-compute them when needed later. This simple optimization reduces time complexities from exponential to polynomial. For example, if we write simple recursive solution for Fibonacci Numbers, we get exponential time complexity and if we optimize it by storing solutions of subproblems, time complexity reduces to linear.
+
+### Problem list:
+
+- [Climbing Stairs](#climbing-stairs)
+- [Minimum Cost Tree From Leaf Values](#minimum-cost-tree-from-leaf-values)
+- [Maximum Subarray](#maximum-subarray)
+
+## Climbing Stairs
+
+#### #Easy; [№70]; Problem description: https://leetcode.com/problems/climbing-stairs/
+#### Solution code:
+
+- On every step we have two choices: climb one stair or two stairs
+- Two base cases: when we need to climb 2 or 1 stairs
+
+#### Approach 1: Plain Recursion:
+```csharp
+public int ClimbStairs(int n) {
+    if (n == 1){
+        return 1;
+    }
+
+    if (n == 2){
+        return 2;
+    }
+
+    return ClimbStairs(n-1) + ClimbStairs(n-2);
+}
+```
+
+#### Approach 2: Plain Recursion + Memoization:
+```csharp
+private int[] memo;			// + memoization
+
+public int ClimbStairs(int n) {
+	memo = new int[n];		// + memoization
+
+    return OnNextStep(n);
+}
+
+private int OnNextStep(int n){
+	if (n == 1){
+	    return 1;
+    }
+	if (n == 2){
+        return 2;
+    }
+    if (memo[n-1] != 0){	// + memoization
+		return memo[n-1];
+	}
+
+	memo[n-1] = OnNextStep(n-1) + OnNextStep(n-2);
+	
+	return memo[n-1];
+}
+```
+
+## Maximum Subarray 
+#### #Easy; [№53]; Problem description: https://leetcode.com/problems/maximum-subarray/
+#### Solution code: MaximumSubarraySolution.cs
+
+### Approach 1: Plain Recursion
+```csharp
+private int[] A;
+private int max;
+    
+public int MaxSubArray(int[] nums)
+{
+    A = nums;
+    max = A[0];
+        
+    DP(nums.Length - 1);
+        
+    return max;
+}
+
+private int DP(int indx)
+{
+    if (indx == 0){ return A[0]; }
+
+    int option1 = DP(indx - 1) + A[indx];
+    int option2 = A[indx];
+        
+    int res = option1 > option2 ? option1 : option2;
+        
+    if (res > max){ max = res; }
+        
+    return option1 > option2 ? option1 : option2;
+}
+```
+
+### Approach 2: Plain Recursion + Memoization
+```csharp
+private int[] A;
+private int max;
+private List<int> memo = new List<int>(); // + memo
+
+public int MaxSubArray(int[] nums)
+{
+    A = nums;
+    max = A[0];
+        
+    memo.Add(A[0]);  // + memo
+    DP(nums.Length - 1);
+        
+    return max;
+}
+
+private int DP(int indx)
+{
+    if (indx < memo.Count){  // + memo
+        return memo[indx];
+    }
+        
+    int option1 = DP(indx - 1) + A[indx];
+    int option2 = A[indx];
+        
+    int res = option1 > option2 ? option1 : option2;
+        
+    if (res > max){ max = res; }
+        
+    memo.Add(res);  // + memo
+    return res;
+}
+```
+
+### Approach 3: Bottom-Up Approach
+```csharp
+public class Solution {
+    private int[] A;
+	private int[] memo; // + memoization
+
+	public int Rob(int[] nums) {
+        this.A = nums;
+		return DP(A.length - 1);
+    }
+
+	private int DP(int indx){
+		if (indx == 0){
+			return A[0];
+		}
+		
+		int option1 = DP(indx - 1) + A[indx];
+		int option2 = A[indx];
+
+		return option1 > option2 ? option1 : option2; 
+    }
+}
+```
+
+## Minimum Cost Tree From Leaf Values
+#### #Medium; [№1130]; Problem description: https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/
+#### Solution code: MaximumSubarraySolution.cs
+
+### Description:
+```
+Given an array of positive integers, consider all binary trees such that:
+- Each node has either 0 or 2 children;
+- The values of arr correspond to the values of each leaf in an in-order traversal of the tree 
+// (Recall that a node is a leaf if and only if it has 0 children.)
+- The value of each non-leaf node is equal to the product of the largest leaf 
+value in its left and right subtree respectively.
+
+Among all possible binary trees considered, return the smallest possible sum of the values
+of each non-leaf node.  It is guaranteed this sum fits into a 32-bit integer.
+```
+
+### Approach 1 - Plain Recursion:
+```csharp
+private int[] arr;
+    
+public int MctFromLeafValues(int[] arr) {
+	this.arr = arr;
+	return OnNextStep(0, arr.Length - 1).sum;
+}
+    
+private (int sum, int max) OnNextStep(int i, int j){
+	if (i == j){ // base case: if we have 1 element in array
+		return (0, arr[i]);
+	}
+        
+	int finalSum = 10000;
+	int finalMax = 0;
+        
+	for(int mid = i; mid < j; mid++){ // all possible partitions of subarray [i..j]
+		(int sum, int max) res1 = OnNextStep(i, mid);
+		(int sum, int max) res2 = OnNextStep(mid + 1, j);
+            
+		int currSum = res1.sum + res2.sum + res1.max*res2.max;
+            
+		if (currSum < finalSum){
+			finalSum = currSum;
+			finalMax = (res1.max > res2.max) ? res1.max : res2.max;
+		}
+	}
+        
+	return (finalSum, finalMax);
+}
+```
+
+### Approach 2 - Plain Recursion + Memoization:
+```csharp
+private int[] arr;
+private int[,] sumMemo;  // + memoization
+private int[,] maxMemo;  // + memoization
+
+public int MctFromLeafValues(int[] arr) {
+    this.arr = arr;
+    sumMemo = new int[arr.Length, arr.Length];  // + memoization
+    maxMemo = new int[arr.Length, arr.Length];  // + memoization
+
+    return OnNextStep(0, arr.Length - 1).sum;
+}
+
+private (int sum, int max) OnNextStep(int i, int j){
+    if (i == j){
+        return (0, arr[i]);
+    }
+        
+    if (sumMemo[i, j] > 0){  // + memoization
+        return (sumMemo[i, j], maxMemo[i, j]);
+    }
+        
+    int finalSum = 10000;
+    int finalMax = 0;
+
+    for(int mid = i; mid < j; mid++){
+        (int sum, int max) res1 = OnNextStep(i, mid);
+        (int sum, int max) res2 = OnNextStep(mid + 1, j);
+
+        int currSum = res1.sum + res2.sum + res1.max*res2.max;
+
+        if (currSum < finalSum){
+            finalSum = currSum;
+            finalMax = (res1.max > res2.max) ? res1.max : res2.max;
+        }
+    }
+
+    sumMemo[i, j] = finalSum;  // + memoization
+    maxMemo[i, j] = finalMax;  // + memoization
+        
+    return (finalSum, finalMax);
+}
+```
+
 ## House Robber #Medium [№198]
 
 ### Approach - 1 Step: Recursion; 
