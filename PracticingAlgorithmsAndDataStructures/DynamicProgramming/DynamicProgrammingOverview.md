@@ -5,8 +5,10 @@ Dynamic Programming is mainly an optimization over plain recursion. Wherever we 
 ### Problem list:
 
 - [Climbing Stairs](#climbing-stairs)
-- [Minimum Cost Tree From Leaf Values](#minimum-cost-tree-from-leaf-values)
 - [Maximum Subarray](#maximum-subarray)
+- [Longest Common Subsequence](#longest-common-substring)
+- [Minimum Cost Tree From Leaf Values](#minimum-cost-tree-from-leaf-values)
+
 
 ## Climbing Stairs
 
@@ -148,6 +150,131 @@ public class Solution {
 
 		return option1 > option2 ? option1 : option2; 
     }
+}
+```
+
+## Longest Common Subarray
+#### #Medium; [№1143]; Problem description: https://leetcode.com/problems/longest-common-subsequence/
+#### Soluiton code: LongestCommonSubsequence.cs
+### Description:
+```
+Given two strings text1 and text2, return the length of their longest common subsequence.
+A subsequence of a string is a new string generated from the original string with some characters(can be none) deleted without changing the relative order of the remaining characters. (eg, "ace" is a subsequence of "abcde" while "aec" is not). A common subsequence of two strings is a subsequence that is common to both strings.
+```
+
+### Approach 1 - Plain Recursion:
+```csharp
+private string _text1;
+private string _text2;
+    
+public int LongestCommonSubsequence(string text1, string text2) {
+    _text1 = text1;
+    _text2 = text2;
+    return Rec(text1.Length - 1, text2.Length - 1);
+}
+    
+private int Rec(int p1, int p2){
+    if (p1 == 0 && p2 == 0){
+        return _text1[p1] == _text2[p2] ? 1 : 0;
+    }
+        
+    if (p1 == 0){
+        return _text1[p1] == _text2[p2] ? 1 : Rec(p1, p2 - 1);
+    }
+        
+    if (p2 == 0){
+        return _text1[p1] == _text2[p2] ? 1 : Rec(p1 - 1, p2);
+    }
+        
+    if (_text1[p1] == _text2[p2]){
+        return Rec(p1 - 1, p2 - 1) + 1;
+    }
+        
+    return Rec(p1 - 1, p2) > Rec(p1, p2 - 1) ? Rec(p1 - 1, p2) : Rec(p1, p2 - 1);
+}
+```
+
+### Approach 2 - Plain Recursion + Memoization:
+```csharp
+private string _text1;
+private string _text2;
+private int[,] _memo; // + Memoization
+    
+public int LongestCommonSubsequence(string text1, string text2) {
+    _text1 = text1;
+    _text2 = text2;
+        
+    _memo = new int[text1.Length, text2.Length]; // + Memoization
+    for (int p1 = 0; p1 < text1.Length; p1++){
+        for (int p2 = 0; p2 < text2.Length; p2++){
+            _memo[p1, p2] = -1;
+        }
+    }
+        
+    return Rec(text1.Length - 1, text2.Length - 1);
+}
+    
+private int Rec(int p1, int p2){
+    if (_memo[p1, p2] != -1) { // + Memoization
+        return _memo[p1, p2];
+    }
+        
+    if (p1 == 0 && p2 == 0){
+        _memo[p1, p2] = _text1[p1] == _text2[p2] ? 1 : 0; 
+        return _memo[p1, p2]; // + Memoization
+    }
+        
+    if (p1 == 0){
+        _memo[p1, p2] = _text1[p1] == _text2[p2] ? 1 : Rec(p1, p2 - 1); 
+        return _memo[p1, p2]; // + Memoization
+    }
+        
+    if (p2 == 0){
+        _memo[p1, p2] = _text1[p1] == _text2[p2] ? 1 : Rec(p1 - 1, p2);
+        return _memo[p1, p2]; // + Memoization
+    }
+        
+    if (_text1[p1] == _text2[p2]){
+        _memo[p1, p2] = Rec(p1 - 1, p2 - 1) + 1;
+        return _memo[p1, p2]; // + Memoization
+    }
+        
+    _memo[p1, p2] = Rec(p1 - 1, p2) > Rec(p1, p2 - 1) ? Rec(p1 - 1, p2) : Rec(p1, p2 - 1);
+    return _memo[p1, p2]; // + Memoization
+}
+```
+### Approach 3 - Bottom-up:
+```csharp
+public int LongestCommonSubsequence(string text1, string text2) {
+    int[,] matrix = new int[text2.Length, text1.Length];
+
+    for(int row = 0; row < text2.Length; row++){
+        for(int col = 0; col < text1.Length; col++){
+            if (row == 0 && col == 0){
+                matrix[row, col] = text2[row] == text1[col] ? 1 : 0;
+                continue;
+            }
+
+            if (row == 0){
+                matrix[row, col] = text2[row] == text1[col] ? 1 : matrix[row, col - 1];
+                continue;
+            }
+
+            if (col == 0){
+                matrix[row, col] = text2[row] == text1[col] ? 1 : matrix[row - 1, col];
+                continue;
+            }
+
+            if (text2[row] == text1[col]){
+                matrix[row, col] = matrix[row - 1, col - 1] + 1;
+                continue;
+            }
+
+            matrix[row, col] = matrix[row, col - 1] > matrix[row - 1, col] ? matrix[row, col - 1] : matrix[row - 1, col];
+        }
+    }
+
+    return matrix[text2.Length - 1, text1.Length - 1];
 }
 ```
 
@@ -339,7 +466,6 @@ public class Solution {
 
 Code: “HouseRobber.cs”
 Problem description: https://leetcode.com/problems/house-robber/
-
 
 ## Ones and Zeroes #Medium [№474]
 
