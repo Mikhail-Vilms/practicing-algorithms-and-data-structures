@@ -12,7 +12,6 @@
   - BST - Binary Search Tree
   - Nary Tree
 - Priority Queue (Heap as implemenmtation)
-- Heap
 - Graph
 - String
 
@@ -24,7 +23,7 @@
 - Merge two sorted arrays
 - DFS - Depth First Search
 - BST - Breadth First Search
-- Dynamic Programming
+- [Dynamic Programming](https://github.com/Mikhail-Vilms/practicing-algorithms-and-data-structures/blob/master/PracticingAlgorithmsAndDataStructures/DynamicProgramming/DynamicProgrammingOverview.md)
 	- Recursion + Memoization
 	- Bottom-Up approach
 - Backtracking

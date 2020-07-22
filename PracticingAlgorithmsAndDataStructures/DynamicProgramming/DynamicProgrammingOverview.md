@@ -6,7 +6,8 @@ Dynamic Programming is mainly an optimization over plain recursion. Wherever we 
 
 - [Climbing Stairs](#climbing-stairs)
 - [Maximum Subarray](#maximum-subarray)
-- [Longest Common Subsequence](#longest-common-substring)
+- [Longest Common Subsequence](#longest-common-subsequence)
+- [Longest Increasing Subsequence](#longest-increasing-subsequence)
 - [Minimum Cost Tree From Leaf Values](#minimum-cost-tree-from-leaf-values)
 
 
@@ -153,13 +154,15 @@ public class Solution {
 }
 ```
 
-## Longest Common Subarray
+## Longest Common Subsequence
 #### #Medium; [№1143]; Problem description: https://leetcode.com/problems/longest-common-subsequence/
 #### Soluiton code: LongestCommonSubsequence.cs
 ### Description:
 ```
 Given two strings text1 and text2, return the length of their longest common subsequence.
-A subsequence of a string is a new string generated from the original string with some characters(can be none) deleted without changing the relative order of the remaining characters. (eg, "ace" is a subsequence of "abcde" while "aec" is not). A common subsequence of two strings is a subsequence that is common to both strings.
+A subsequence of a string is a new string generated from the original string with some characters(can be none) deleted without
+changing the relative order of the remaining characters. (eg, "ace" is a subsequence of "abcde" while "aec" is not). 
+A common subsequence of two strings is a subsequence that is common to both strings.
 ```
 
 ### Approach 1 - Plain Recursion:
@@ -275,6 +278,106 @@ public int LongestCommonSubsequence(string text1, string text2) {
     }
 
     return matrix[text2.Length - 1, text1.Length - 1];
+}
+```
+
+## Longest Increasing Subsequence
+#### #Medium; [№300]; Problem description: https://leetcode.com/problems/longest-common-subsequence/
+#### Solution code: [LongestIncreasingSubsequenceSolution.cs]((https://github.com/Mikhail-Vilms/practicing-algorithms-and-data-structures/blob/master/PracticingAlgorithmsAndDataStructures/DynamicProgramming/LongestIncreasingSubsequenceSolution.cs))
+
+### Description:
+```
+Given an unsorted array of integers, find the length of longest increasing subsequence.
+[10,9,2,5,3,7,101,18] -> 4 : [2,3,7,101]
+```
+
+### Solution:
+```
+Iterate array from right to left, on every step we have two options:
+- Skip current element: moving next without including current element into subsequence
+- Include current element, if possible; It is possible if current element is less than next element in subsequence
+This means that we have to track: 1) index of current element and 2) index of next element in subsequence
+```
+
+### Approach 1 - Plain Recursion:
+```csharp
+private int[] _nums;
+    
+public int LengthOfLIS(int[] nums) {
+    _nums = nums;
+        
+    return FindFor(nums.Length - 1, nums.Length);
+}
+    
+private int FindFor(int curr, int next){           
+    if (curr == 0){
+        if (next == _nums.Length || _nums[curr] < _nums[next]){
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+        
+    // Skip current element: moving without including current element into subsequence
+    int opt1 = FindFor(curr - 1, next);                 
+                
+    // include current element, if possible: if current is less that next element,
+    // we can include it into subsequence - that means that from now current el is new "next"
+    int opt2 = 0;                                       
+    if (next == _nums.Length || _nums[curr] < _nums[next]){
+        opt2 = 1 + FindFor(curr - 1, curr);
+    }
+        
+    return Math.Max(opt1, opt2);
+}
+```
+
+### Approach 2 - Plain Recursion + Memoization:
+```csharp
+private int[] _nums;
+private int[,] _memo; // + MEMO
+    
+public int LengthOfLIS(int[] nums) {
+    if (nums.Length == 0){
+        return 0;
+    }
+    _nums = nums;
+        
+    _memo = new int[nums.Length, nums.Length + 1]; // + MEMO
+    for (int i = 0; i < nums.Length; i++){
+        for (int j = 0; j <= nums.Length; j++){
+            _memo[i, j] = -1;
+        }
+    }
+        
+    return FindFor(nums.Length - 1, nums.Length);
+}
+
+private int FindFor(int curr, int next){           
+    if (curr == 0){
+        if (next == _nums.Length || _nums[curr] < _nums[next]){
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+        
+    if (_memo[curr, next] != -1){   // + MEMO
+        return _memo[curr, next];
+    }
+        
+    int opt1 = FindFor(curr - 1, next);                 
+                
+    int opt2 = 0;
+    if (next == _nums.Length || _nums[curr] < _nums[next]){
+        opt2 = 1 + FindFor(curr - 1, curr);
+    }
+        
+    _memo[curr, next] = Math.Max(opt1, opt2); // + MEMO
+        
+    return _memo[curr, next];
 }
 ```
 
