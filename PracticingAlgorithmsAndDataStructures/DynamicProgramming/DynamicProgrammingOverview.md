@@ -283,7 +283,7 @@ public int LongestCommonSubsequence(string text1, string text2) {
 
 ## Longest Increasing Subsequence
 #### #Medium; [№300]; Problem description: https://leetcode.com/problems/longest-common-subsequence/
-#### Solution code: [LongestIncreasingSubsequenceSolution.cs](https://github.com/Mikhail-Vilms/practicing-algorithms-and-data-structures/blob/master/PracticingAlgorithmsAndDataStructures/DynamicProgramming/LongestIncreasingSubsequenceSolution.cs)
+#### [Solution code](https://github.com/Mikhail-Vilms/practicing-algorithms-and-data-structures/blob/master/PracticingAlgorithmsAndDataStructures/DynamicProgramming/LongestIncreasingSubsequenceSolution.cs) : LongestIncreasingSubsequenceSolution.cs
 
 ### Description:
 ```
