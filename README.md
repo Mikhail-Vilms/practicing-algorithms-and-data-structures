@@ -12,7 +12,6 @@
   - BST - Binary Search Tree
   - Nary Tree
 - Priority Queue (Heap as implemenmtation)
-- Heap
 - Graph
 - String
 
