@@ -1,6 +1,6 @@
 ﻿namespace PracticingAlgorithmsAndDataStructures.BinarySearchTree
 {
-    public class ValidateBST
+    public class ValidateBinarySearchTreeSolution
     {
         public bool IsValidBST(TreeNode root, int? left = null, int? right = null)
         {
