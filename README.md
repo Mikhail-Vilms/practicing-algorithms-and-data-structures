@@ -8,8 +8,8 @@
 - Stack
 - Queue
 - Tree
-  - Binary Tree
-  - BST - Binary Search Tree
+  - [Binary Tree](https://github.com/Mikhail-Vilms/practicing-algorithms-and-data-structures/blob/master/PracticingAlgorithmsAndDataStructures/BinaryTree/BinaryTreeOverview.md)
+  - [Binary Search Tree](https://github.com/Mikhail-Vilms/practicing-algorithms-and-data-structures/blob/master/PracticingAlgorithmsAndDataStructures/BinarySearchTree/BinarySearchTreeOverview.md)
   - Nary Tree
 - Priority Queue (Heap as implemenmtation)
 - Graph
@@ -18,7 +18,7 @@
 ## List of techniques:
 
 - Two pointers
-- Binary search
+- Binary Search
 - Partitioning
 - Merge two sorted arrays
 - DFS - Depth First Search

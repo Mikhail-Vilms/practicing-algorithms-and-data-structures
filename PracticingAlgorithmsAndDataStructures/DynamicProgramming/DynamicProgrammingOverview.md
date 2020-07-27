@@ -7,7 +7,7 @@ Dynamic Programming is mainly an optimization over plain recursion. Wherever we 
 - [Climbing Stairs](#climbing-stairs)
 - [Maximum Subarray](#maximum-subarray)
 - [Longest Common Subsequence](#longest-common-subsequence)
-- [Longest Increasing Subsequence](#longest-increasing-subsequence)
+- [Longest Increasing Subsequence](#longest-increasing-subsequence) #must-have
 - [Minimum Cost Tree From Leaf Values](#minimum-cost-tree-from-leaf-values)
 
 
@@ -283,7 +283,7 @@ public int LongestCommonSubsequence(string text1, string text2) {
 
 ## Longest Increasing Subsequence
 #### #Medium; [№300]; Problem description: https://leetcode.com/problems/longest-common-subsequence/
-#### Solution code: [LongestIncreasingSubsequenceSolution.cs]((https://github.com/Mikhail-Vilms/practicing-algorithms-and-data-structures/blob/master/PracticingAlgorithmsAndDataStructures/DynamicProgramming/LongestIncreasingSubsequenceSolution.cs))
+#### [Solution code](https://github.com/Mikhail-Vilms/practicing-algorithms-and-data-structures/blob/master/PracticingAlgorithmsAndDataStructures/DynamicProgramming/LongestIncreasingSubsequenceSolution.cs) : LongestIncreasingSubsequenceSolution.cs
 
 ### Description:
 ```

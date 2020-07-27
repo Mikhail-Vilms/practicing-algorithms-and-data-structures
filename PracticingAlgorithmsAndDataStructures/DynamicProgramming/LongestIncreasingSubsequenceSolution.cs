@@ -2,7 +2,7 @@
 
 namespace PracticingAlgorithmsAndDataStructures.DynamicProgramming
 {
-    public class LongestIncreasingSubsequence
+    public class LongestIncreasingSubsequenceSolution
     {
         private int[] _nums;
         private int[,] _memo; // +MEMO
